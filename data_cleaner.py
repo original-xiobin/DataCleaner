@@ -12,9 +12,10 @@ import argparse
 
 
 def main():
-    utils = CleanerUtils(argparse.ArgumentParser(description="Clean input data."))
+    utils = CleanerUtils(argparse.ArgumentParser(
+        description="Clean input data."))
     utils.clean_data()
-    
+
     
 if __name__ == "__main__":
     main() 

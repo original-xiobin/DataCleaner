@@ -7,22 +7,27 @@ Created on Sat Jul 25 23:22:38 2026
 """
 
 import os
+from datetime import datetime as dt
 import argparse
+import tkinter
 
 class CleanerUtils:
     input_path = ""
     output_path = os.getcwd()
-    filename = "result.txt" 
+    ct = dt.now()
+    timestr = str(ct.date()) + "-" + str(ct.hour) + str(ct.minute)
+    filename = f"result_{timestr}.csv"
+    summary = f"summary_{timestr}.txt"
     
     def __init__(self, args):
         self.process_arguments(args)
+        
     
-    def process_arguments(self, parser):
-        #parser = argparse.ArgumentParser(description="Clean input data.")
+    def process_arguments(self, parser: argparse.ArgumentParser):
         parser.add_argument("-i", "--input_path", type=str, 
                             help="Define an input file path for the file that" 
-                            + "needs data cleaning.\n Include the file name.\n" +
-                            "Examples:\n" +
+                            + "needs data cleaning.\n" + 
+                            "Include the file name\nExamples:\n" +
                             "/Users/admin/source/input.txt\n" +
                             "c:\source\input.txt")
         parser.add_argument("-o", "--output_path", type=str, 
@@ -35,7 +40,8 @@ class CleanerUtils:
                             "Examples:\n" +
                             "/Users/admin/source/input.txt\n" +
                             "c:\source\input.txt")
-        parser.add_argument("-n", "--filename", type=str, help="Define desired" +
+        parser.add_argument("-n", "--filename", type=str, 
+                            help="Define desired" +
                             " name for the file")
         args = parser.parse_args()
         if (args.input_path == None or args.input_path == "" 
@@ -51,14 +57,14 @@ class CleanerUtils:
             if (args.filename != "result.txt" and args.filename != ""
                 and args.filename != None):
                 self.filename = args.filename
-            # REMOVE THESE
-            print("Input type: " + str(type(self.input_path)) + 
-                  "\nOutput type: " + str(type(self.output_path)) +
-                  "\nOutput filename type: " + str(type(self.filename)))
-            # REMOVE UPPER TESTING SECTION
-            print("Input path: " + self.input_path + 
-                  "\nOutput path: " + self.output_path +
-                  "\nFilename: " + self.filename)
+            
             
     def clean_data(self):
-        pass
+        print("Cleaning data from the input file: " + self.input_path)
+        print("The output files " + self.filename + " and " + self.summary + 
+              " are saved to the following folder " + 
+              self.output_path)
+
+    def select_path(self, tk: tkinter, button: str, entry: tkinter.Entry):
+        directory = tk.filedialog.askdirectory()
+        
